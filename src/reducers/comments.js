@@ -34,6 +34,7 @@ const commentReducer = (state, action) => {
       return state;
   }
 }
+export default commentReducer;
 
 // action creators
 export const initComments = (comments) => {

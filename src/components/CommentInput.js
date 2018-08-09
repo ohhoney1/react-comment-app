@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 
-const USERNAME = '__comment-app-username__';
-
 class CommentInput extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      username: '',
+      username: props.username,
       comment: ''
     };
 
@@ -16,21 +14,8 @@ class CommentInput extends Component {
     this.handleComment = this.handleComment.bind(this);
   }
 
-  componentWillMount() {
-    this._loadUsername();
-  }
-
   componentDidMount() {
-    if (this.state.username) this.textarea.focus();
-  }
-
-  _saveUsername() {
-    localStorage.setItem(USERNAME, this.state.username);
-  }
-
-  _loadUsername() {
-    const username = localStorage.getItem(USERNAME);
-    if (username) this.setState({ username });
+    if (this.state.username) this.props.textareaRef.current.focus();  // React.js 16.3+ support ref forwarding
   }
 
   handleUsernameChange(evt) {
@@ -39,8 +24,10 @@ class CommentInput extends Component {
     });
   }
 
-  handleUsernameBlur() {
-    this._saveUsername();
+  handleUsernameBlur(evt) {
+    if (this.props.onUsernameBlur) {
+      this.props.onUsernameBlur(evt.target.value);
+    }
   }
 
   handleCommentChange(evt) {
@@ -51,20 +38,13 @@ class CommentInput extends Component {
 
   handleComment() {
     const { username, comment } = this.state;
-    if (!username) {
-      alert('请输入用户名');
-      return false;
+    if (this.props.onAddComment) {
+      this.props.onAddComment({
+        username,
+        comment,
+        createTime: +new Date()
+      });
     }
-    if (!comment) {
-      alert('请输入评论内容');
-      this.textarea.focus();
-      return false;
-    }
-    this.props.onAddComment({
-      username,
-      comment,
-      createTime: +new Date()
-    });
 
     this.setState({ comment: '' });
   }
@@ -87,7 +67,7 @@ class CommentInput extends Component {
           <label>评论内容：</label>
           <textarea
             className='border'
-            ref={textarea => this.textarea = textarea}
+            ref={this.props.textareaRef}
             value={comment}
             onChange={this.handleCommentChange} />
         </div>
