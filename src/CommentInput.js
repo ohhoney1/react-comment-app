@@ -28,6 +28,15 @@ class CommentInput extends Component {
     if (this.state.username) this.textarea.focus();
   }
 
+  _saveUsername() {
+    localStorage.setItem(USERNAME, this.state.username);
+  }
+
+  _loadUsername() {
+    const username = localStorage.getItem(USERNAME);
+    if (username) this.setState({ username });
+  }
+
   handleUsernameChange(evt) {
     this.setState({
       username: evt.target.value
@@ -45,16 +54,23 @@ class CommentInput extends Component {
   }
 
   handleComment() {
-    this.props.onAddComment(this.state);
-  }
+    const { username, comment } = this.state;
+    if (!username) {
+      alert('请输入用户名');
+      return false;
+    }
+    if (!comment) {
+      alert('请输入评论内容');
+      this.textarea.focus();
+      return false;
+    }
+    this.props.onAddComment({
+      username,
+      comment,
+      createTime: +new Date()
+    });
 
-  _saveUsername() {
-    localStorage.setItem(USERNAME, this.state.username);
-  }
-
-  _loadUsername() {
-    const username = localStorage.getItem(USERNAME) || '';
-    this.setState({ username });
+    this.setState({ comment: '' });
   }
 
   render() {
