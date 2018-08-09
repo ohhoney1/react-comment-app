@@ -3,10 +3,6 @@ import React, { Component } from 'react';
 const USERNAME = '__comment-app-username__';
 
 class CommentInput extends Component {
-  // static propTypes = {
-  //   onAddComment: PropTypes.func
-  // }
-
   constructor() {
     super();
     this.state = {
