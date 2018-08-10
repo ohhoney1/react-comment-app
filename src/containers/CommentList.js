@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CommentList from '../components/CommentList';
 import { initComments, deleteComment } from '../reducers/comments';
@@ -6,6 +7,12 @@ import { initComments, deleteComment } from '../reducers/comments';
 const COMMENTS = '__comment-comments__';
 
 class CommentListContainer extends Component {
+  static propTypes = {
+    comments: PropTypes.array,
+    initComments: PropTypes.func,
+    onDeleteComment: PropTypes.func
+  }
+
   constructor() {
     super();
     this.handleDeleteComment = this.handleDeleteComment.bind(this);

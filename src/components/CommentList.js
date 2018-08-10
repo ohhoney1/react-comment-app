@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Comment from './Comment';
 
 class CommentList extends Component {
+  static propTypes = {
+    comments: PropTypes.array,
+    onDeleteComment: PropTypes.func
+  }
+
   static defaultProps = {
     comments: []
   }
@@ -17,9 +23,10 @@ class CommentList extends Component {
 
   render() {
     const { comments } = this.props;
+    const reverseComments = [...comments].reverse()
     return (
       <ul className='comment-list-wrap border'>
-        {comments.map((comment, index) =>
+        {reverseComments.map((comment, index) =>
           <Comment
             key={index}
             index={index}

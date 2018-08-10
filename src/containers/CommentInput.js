@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CommentInput from '../components/CommentInput';
 import { addComment } from '../reducers/comments';
@@ -7,6 +8,11 @@ const USERNAME = '__comment-app-username__';
 const COMMENTS = '__comment-comments__';
 
 class CommentInputContainer extends Component {
+  static propTypes = {
+    comments: PropTypes.array,
+    onAddComment: PropTypes.func
+  }
+
   constructor() {
     super();
     this.state = {

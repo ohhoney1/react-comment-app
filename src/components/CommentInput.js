@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class CommentInput extends Component {
+  static propTypes = {
+    username: PropTypes.string.isRequired,
+    onAddComment: PropTypes.func.isRequired,
+    onUsernameBlur: PropTypes.func,
+    textareaRef: PropTypes.object
+  }
+
   constructor(props) {
     super(props);
     this.state = {
